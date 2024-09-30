@@ -37,13 +37,27 @@ public class BulletController : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyController>().KillEnemy();
             Destroy(gameObject);
+
+            // 開始震動，並使用 Coroutine 來控制震動時間
+            StartCoroutine(VibrateForDuration(0.5f, 0.8f, 0.5f, OVRInput.Controller.RTouch));
         }
         // check if we hit the graffiti
         else if(other.CompareTag("Graffiti")) {            
             gm.InitGame();
             Destroy(gameObject);
         }
-
-        
     }
+
+    IEnumerator VibrateForDuration(float frequency, float amplitude, float duration, OVRInput.Controller controller)
+    {
+        // 開始震動
+        OVRInput.SetControllerVibration(frequency, amplitude, controller);
+
+        // 等待震動時間
+        yield return new WaitForSeconds(duration);
+
+        // 停止震動
+        OVRInput.SetControllerVibration(0, 0, controller);
+    }
+        
 }

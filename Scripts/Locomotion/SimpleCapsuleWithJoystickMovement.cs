@@ -78,10 +78,24 @@ public class SimpleCapsuleWithJoystickMovement : MonoBehaviour
 
         // Hint:
         // 1. Get the forward and right vectors of the camera. get the forward vector by using cameraTransform.forward for example.
+        forward = cameraTransform.forward;
+        right = cameraTransform.right;
+
         // 2. Calculate the movement direction based on the thumbstick input and the "normalized" camera's forward and right vectors.
+        forward.y = 0;  // We don't want to move vertically, so we set the y component to 0
+        forward.Normalize();  // Normalize to ensure consistent movement speed regardless of camera tilt
+        right.y = 0;  // Ignore vertical movement
+        right.Normalize();
+        
         // 3. Multiply the movement direction by the Speed variable to control the speed of the player.
+        moveDir = (forward * primaryAxis.y + right * primaryAxis.x) * Speed;
+
         // 4. Make sure to multiply the movement direction by Time.fixedDeltaTime to make the movement frame rate independent.
+        moveDir *= Time.fixedDeltaTime;
+
         // 5. Use the Rigidbody component to move the player by setting its velocity to the movement direction. _rigidbody.MovePosition(Vector3 position) can be used to move the player.
+        _rigidbody.MovePosition(_rigidbody.position + moveDir);
+
         // Your code here:
     
     }

@@ -7453,7 +7453,7 @@ MonoBehaviour:
   HMDRotatesPlayer: 1
   RotationAngle: 45
   Speed: 2
-  CameraRig: {fileID: 0}
+  CameraRig: {fileID: 1698397078}
 --- !u!114 &2101582752
 MonoBehaviour:
   m_ObjectHideFlags: 0
