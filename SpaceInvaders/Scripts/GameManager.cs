@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     // graffiti
     public Text uiText;
 
+    // Reference to the AudioSource component
+    public AudioManager am;
+
     //states
     enum State { NotStarted, Playing, GameOver, WonGame }
 
@@ -24,6 +27,8 @@ public class GameManager : MonoBehaviour
 
         // refresh UI
         RefreshUI();
+
+        am = GameObject.FindObjectOfType<AudioManager>();
 
         // find the enemy manager
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
@@ -69,6 +74,8 @@ public class GameManager : MonoBehaviour
         // create enemy wave
         enemyManager.CreateEnemyWave();
 
+        am.switchbgm(am.fightbgm);
+
         // show text on the graffiti
         RefreshUI();
     }
@@ -81,6 +88,8 @@ public class GameManager : MonoBehaviour
 
         // set the state to game over
         currState = State.GameOver;
+
+        am.switchbgm(am.losebgm);
 
         // show text on the graffiti
         RefreshUI();
@@ -101,6 +110,8 @@ public class GameManager : MonoBehaviour
         {
             // set the state of the game
             currState = State.WonGame;
+
+            am.switchbgm(am.winbgm);
 
             // show text on the graffiti
             RefreshUI();

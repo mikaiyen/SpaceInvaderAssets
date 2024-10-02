@@ -8,11 +8,21 @@ public class BulletController : MonoBehaviour
 
     public GameManager gm;
 
+    public GrabDetector gd;
+
+    public OVRInput.Controller grabbedController;
+
+    // Reference to the AudioSource component
+    public AudioManager am;
+
+
     Vector3 initPos;
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("BulletController script is attached to: " + gameObject.name);
         initPos = transform.position;
+        am = GameObject.FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -36,10 +46,14 @@ public class BulletController : MonoBehaviour
         if(other.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<EnemyController>().KillEnemy();
-            Destroy(gameObject);
 
-            // 開始震動，並使用 Coroutine 來控制震動時間
-            StartCoroutine(VibrateForDuration(0.5f, 0.8f, 0.5f, OVRInput.Controller.RTouch));
+            // 開始震動右手控制器，頻率和強度可以自行調整
+            grabbedController=gd.GetGrabbedController();
+            OVRInput.SetControllerVibration(0.5f, 0.8f, grabbedController);
+            Debug.Log("hit with "+grabbedController);
+            // 在 0.5 秒後停止震動
+            Invoke("StopVibration", 0.5f);
+            Destroy(gameObject,0.7f);
         }
         // check if we hit the graffiti
         else if(other.CompareTag("Graffiti")) {            
@@ -48,16 +62,11 @@ public class BulletController : MonoBehaviour
         }
     }
 
-    IEnumerator VibrateForDuration(float frequency, float amplitude, float duration, OVRInput.Controller controller)
+    public void StopVibration()
     {
-        // 開始震動
-        OVRInput.SetControllerVibration(frequency, amplitude, controller);
-
-        // 等待震動時間
-        yield return new WaitForSeconds(duration);
-
-        // 停止震動
-        OVRInput.SetControllerVibration(0, 0, controller);
+        // 停止右手控制器的震動
+        OVRInput.SetControllerVibration(0, 0, grabbedController);
+        Debug.Log("invoke");
     }
         
 }
