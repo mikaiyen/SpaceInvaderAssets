@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
 
      // available states
     enum State { MovingHorizontally, MovingVertically, Dead};
+    public Material deadmaterial;
     
     // keep track of the current state
     State currState;
@@ -28,6 +29,7 @@ public class EnemyController : MonoBehaviour
 
     // Enemy Manager
     EnemyManager em;
+
 
     // Start is called before the first frame update
     void Start()
@@ -116,9 +118,11 @@ public class EnemyController : MonoBehaviour
         currState = State.Dead;
 
         //[implement your own effect here]
+        gameObject.GetComponentInChildren<Renderer>().sharedMaterial = deadmaterial;
 
         //[Example]
-        Destroy(gameObject);
+        Invoke("enemyfade", 0.2f);
+        
         //[End of Example]
 
         // decrease number of enemies
@@ -144,5 +148,9 @@ public class EnemyController : MonoBehaviour
         {
             gm.GameOver();
         }
+    }
+
+    public void enemyfade(){
+        Destroy(gameObject);
     }
 }

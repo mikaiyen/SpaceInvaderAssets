@@ -9,7 +9,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource bgm;
     [SerializeField] AudioSource sfx;
     [Header("---------Audio Clip---------")]
-    public AudioClip shoot;
+    public AudioClip gun1shoot;
+    public AudioClip gun2shoot;
     public AudioClip mainbgm;
     public AudioClip fightbgm;
     public AudioClip winbgm;

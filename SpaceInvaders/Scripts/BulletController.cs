@@ -47,12 +47,22 @@ public class BulletController : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyController>().KillEnemy();
 
-            // 開始震動右手控制器，頻率和強度可以自行調整
-            grabbedController=gd.GetGrabbedController();
-            OVRInput.SetControllerVibration(0.5f, 0.8f, grabbedController);
-            Debug.Log("hit with "+grabbedController);
-            // 在 0.5 秒後停止震動
-            Invoke("StopVibration", 0.5f);
+            // 開始震動控制器，頻率和強度可以自行調整
+            if(gd.IsBothGrab()==true)
+            {
+                OVRInput.SetControllerVibration(0.2f, 0.2f, OVRInput.Controller.LTouch);
+                OVRInput.SetControllerVibration(0.2f, 0.2f, OVRInput.Controller.RTouch);
+                // 在 0.5 秒後停止震動
+                Invoke("StopBothVibration", 0.2f);
+            }
+            else
+            {
+                grabbedController=gd.GetGrabbedController();
+                OVRInput.SetControllerVibration(0.2f, 0.2f, grabbedController);
+                Debug.Log("hit with "+grabbedController);
+                // 在 0.5 秒後停止震動
+                Invoke("StopVibration", 0.2f);
+            }
             Destroy(gameObject,0.7f);
         }
         // check if we hit the graffiti
@@ -67,6 +77,13 @@ public class BulletController : MonoBehaviour
         // 停止右手控制器的震動
         OVRInput.SetControllerVibration(0, 0, grabbedController);
         Debug.Log("invoke");
+    }
+
+    public void StopBothVibration()
+    {
+        // 停止控制器的震動
+        OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
+        OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
     }
         
 }

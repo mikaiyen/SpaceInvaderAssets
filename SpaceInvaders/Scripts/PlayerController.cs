@@ -7,12 +7,15 @@ public class PlayerController : MonoBehaviour
     // Bullet velocity
     public float bulletSpeed = 10;
 
-    // Gun shoot out position
-    public GameObject ShootOutput;
+    // Left hand gun setup
+    public GameObject leftHandShootOutput;
+    public GameObject leftHandBulletPrefab;
+    public GrabDetector leftHandGunGrabDetector;
 
-    // bullet prefab
-    public GameObject bulletPrefab;
-    public GrabDetector gunGrabDetector;
+    // Right hand gun setup
+    public GameObject rightHandShootOutput;
+    public GameObject rightHandBulletPrefab;
+    public GrabDetector rightHandGunGrabDetector;
 
 
     // Reference to the AudioSource component
@@ -41,42 +44,73 @@ public class PlayerController : MonoBehaviour
         GunActionManager();
     }
 
-    void OnFire()
+    // Fire function for left hand
+    void OnFireLeftHand()
     {
-        // spawn a new bullet
-        GameObject newBullet = Instantiate(bulletPrefab);
+        // Spawn a new bullet
+        GameObject newBullet = Instantiate(leftHandBulletPrefab);
 
-        // pass the game manager
+        // Pass the game manager
         newBullet.GetComponent<BulletController>().gm = gm;
 
-        // pass the grab detector
+        // Pass the grab detector
         newBullet.GetComponent<BulletController>().gd = gd;
 
+        // Position will be that of the left hand gun
+        newBullet.transform.position = leftHandShootOutput.transform.position;
 
-        // position will be that of the gun
-        newBullet.transform.position = ShootOutput.transform.position;
-
-        // get rigid body
+        // Get rigid body
         Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
 
-        // let the bullet face to the forward when shoot
-        newBullet.transform.LookAt(ShootOutput.transform.forward * 30f);
+        // Let the bullet face forward when shot
+        newBullet.transform.LookAt(leftHandShootOutput.transform.forward * 30f);
 
-        // give the bullet velocity
-        bulletRb.velocity = ShootOutput.transform.forward * bulletSpeed;
-
-        
+        // Give the bullet velocity
+        bulletRb.velocity = leftHandShootOutput.transform.forward * bulletSpeed;
     }
 
+    // Fire function for right hand
+    void OnFireRightHand()
+    {
+        // Spawn a new bullet
+        GameObject newBullet = Instantiate(rightHandBulletPrefab);
+
+        // Pass the game manager
+        newBullet.GetComponent<BulletController>().gm = gm;
+
+        // Pass the grab detector
+        newBullet.GetComponent<BulletController>().gd = gd;
+
+        // Position will be that of the right hand gun
+        newBullet.transform.position = rightHandShootOutput.transform.position;
+
+        // Get rigid body
+        Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
+
+        // Let the bullet face forward when shot
+        newBullet.transform.LookAt(rightHandShootOutput.transform.forward * 30f);
+
+        // Give the bullet velocity
+        bulletRb.velocity = rightHandShootOutput.transform.forward * bulletSpeed;
+    }
+
+    // Managing gun actions for both hands
     void GunActionManager()
     {
-        // shoot gun
-        if ((OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && gunGrabDetector.isGrabbedByRightHand) || 
-        (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && gunGrabDetector.isGrabbedByLeftHand))
+        // Check if the right hand is grabbed and shooting
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) && rightHandGunGrabDetector.isGrabbedByRightHand)
         {
-            // Play the shooting sound effect
-            am.playSFX(am.shoot);
-            OnFire();
+            // Play shooting sound and fire right hand gun
+            am.playSFX(am.gun1shoot);
+            OnFireRightHand();
+        }
+
+        // Check if the left hand is grabbed and shooting
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger) && leftHandGunGrabDetector.isGrabbedByLeftHand)
+        {
+            // Play shooting sound and fire left hand gun
+            am.playSFX(am.gun2shoot);
+            OnFireLeftHand();
         }
     }
 

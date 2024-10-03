@@ -46,4 +46,16 @@ public class GrabDetector : MonoBehaviour
         Debug.Log("No hand.");
         return OVRInput.Controller.None;
     }
+
+    public bool IsBothGrab()
+    {
+        if (isGrabbedByLeftHand&&isGrabbedByRightHand)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
