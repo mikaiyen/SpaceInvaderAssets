@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     // Bullet velocity
     public float bulletSpeed = 10;
 
+    // number of bullets shot
+    public int numBullets=0;
+
     // Left hand gun setup
     public GameObject leftHandShootOutput;
     public GameObject leftHandBulletPrefab;
@@ -50,6 +53,9 @@ public class PlayerController : MonoBehaviour
         // Spawn a new bullet
         GameObject newBullet = Instantiate(leftHandBulletPrefab);
 
+        // Add a bullet count
+        numBullets+=1;
+
         // Pass the game manager
         newBullet.GetComponent<BulletController>().gm = gm;
 
@@ -74,6 +80,9 @@ public class PlayerController : MonoBehaviour
     {
         // Spawn a new bullet
         GameObject newBullet = Instantiate(rightHandBulletPrefab);
+
+        // Add a bullet count
+        numBullets+=1;
 
         // Pass the game manager
         newBullet.GetComponent<BulletController>().gm = gm;

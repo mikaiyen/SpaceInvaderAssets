@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,11 @@ public class GameManager : MonoBehaviour
     // graffiti
     public Text uiText;
 
+    public Text bulletcount;
+
+    public decimal acc;
+    public int accOutput;
+
     // Reference to the AudioSource component
     public AudioManager am;
 
@@ -16,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     // current state
     State currState;
+
+    // Enemy Manager
+    PlayerController pc;
 
     // Enemy Manager
     EnemyManager enemyManager;
@@ -32,6 +41,11 @@ public class GameManager : MonoBehaviour
 
         // find the enemy manager
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+
+        // find the player controller
+        pc = GameObject.FindObjectOfType<PlayerController>();
+
+        pc.numBullets=0;
 
         // log error if it wasn't found
         if(enemyManager == null)
@@ -51,14 +65,21 @@ public class GameManager : MonoBehaviour
 
             case State.Playing:
                 uiText.text = "Enemies left: " + enemyManager.numEnemies;
+                bulletcount.text = pc.numBullets + " bullets shoot";
                 break;
 
             case State.GameOver:
+                acc=Math.Round((decimal)(enemyManager.totalenemiescount-enemyManager.numEnemies)/ pc.numBullets,2)*100;
+                accOutput=Decimal.ToInt32(acc);
                 uiText.text = "Game Over! Shoot here";
+                bulletcount.text = "Your accuracy is: "+ accOutput +"%";
                 break;
 
             case State.WonGame:
+                acc=Math.Round((decimal)(enemyManager.totalenemiescount-enemyManager.numEnemies)/ pc.numBullets,2)*100;
+                accOutput=Decimal.ToInt32(acc);
                 uiText.text = "YOU WON! Shoot here";
+                bulletcount.text = "Your accuracy is: "+ accOutput +"%";
                 break;
         }  
     }
@@ -73,6 +94,8 @@ public class GameManager : MonoBehaviour
 
         // create enemy wave
         enemyManager.CreateEnemyWave();
+
+        pc.numBullets=0;
 
         am.switchbgm(am.fightbgm);
 

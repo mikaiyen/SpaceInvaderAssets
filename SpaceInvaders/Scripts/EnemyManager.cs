@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class EnemyManager : MonoBehaviour
 
     // number of layers
     public int numY;
+
+    public int totalenemiescount;
     
     // separation
     public float separation;
@@ -26,6 +29,7 @@ public class EnemyManager : MonoBehaviour
     {
         // calculate number of enemies
         numEnemies = numZ * numX * numY;
+        totalenemiescount = numEnemies;
 
         Vector3 startPos = transform.position;
 
