@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public decimal acc;
     public int accOutput;
+
+    public string nowstate;
 
     // Reference to the AudioSource component
     public AudioManager am;
@@ -28,11 +33,18 @@ public class GameManager : MonoBehaviour
 
     // Enemy Manager
     EnemyManager enemyManager;
+    BossManager bm;
     // Start is called before the first frame update
     void Start()
     {
-        // start as not playing
-        currState = State.NotStarted;
+
+        if (SceneManager.GetActiveScene().buildIndex==0){
+            currState = State.GameOver;
+        }
+        else{
+            // start as not playing
+            currState = State.NotStarted;
+        }
 
         // refresh UI
         RefreshUI();
@@ -41,9 +53,11 @@ public class GameManager : MonoBehaviour
 
         // find the enemy manager
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+        bm = GameObject.FindObjectOfType<BossManager>();
 
         // find the player controller
         pc = GameObject.FindObjectOfType<PlayerController>();
+
 
         pc.numBullets=0;
 
@@ -61,11 +75,13 @@ public class GameManager : MonoBehaviour
         {
             case State.NotStarted:
                 uiText.text = "Shoot here to begin";
+                nowstate="NotStarted";
                 break;
 
             case State.Playing:
                 uiText.text = "Enemies left: " + enemyManager.numEnemies;
                 bulletcount.text = pc.numBullets + " bullets shoot";
+                nowstate="Playing";
                 break;
 
             case State.GameOver:
@@ -73,13 +89,20 @@ public class GameManager : MonoBehaviour
                 accOutput=Decimal.ToInt32(acc);
                 uiText.text = "Game Over! Shoot here";
                 bulletcount.text = "Your accuracy is: "+ accOutput +"%";
+                nowstate="GameOver";
                 break;
 
             case State.WonGame:
                 acc=Math.Round((decimal)(enemyManager.totalenemiescount-enemyManager.numEnemies)/ pc.numBullets,2)*100;
                 accOutput=Decimal.ToInt32(acc);
-                uiText.text = "YOU WON! Shoot here";
+                if(SceneManager.GetActiveScene().buildIndex==3){
+                    uiText.text = "YOU Complete the game!";
+                }
+                else{
+                    uiText.text = "YOU WON! Shoot here to next level";
+                }
                 bulletcount.text = "Your accuracy is: "+ accOutput +"%";
+                nowstate="WonGame";
                 break;
         }  
     }
@@ -94,6 +117,7 @@ public class GameManager : MonoBehaviour
 
         // create enemy wave
         enemyManager.CreateEnemyWave();
+
 
         pc.numBullets=0;
 
@@ -119,6 +143,9 @@ public class GameManager : MonoBehaviour
 
         // remove all enemies
         enemyManager.KillAll();
+
+        //load to prison
+        SceneManager.LoadScene(0);
     }
 
     // checks whether we've won, and if we did win, refresh UI
@@ -131,16 +158,57 @@ public class GameManager : MonoBehaviour
         // have we won the game?
         if(enemyManager.numEnemies <= 0)
         {
+            if(SceneManager.GetActiveScene().buildIndex!=3){
+                // set the state of the game
+                currState = State.WonGame;
+
+                if(SceneManager.GetActiveScene().buildIndex==3){
+                    am.switchbgm(am.victorybgm);
+                }
+                else{
+                    am.switchbgm(am.winbgm);
+                }
+
+                // show text on the graffiti
+                RefreshUI();
+
+                // remove all enemies
+                enemyManager.KillAll();
+            }
+            else if(SceneManager.GetActiveScene().buildIndex==3){
+                //create boss
+                bm.CreateBossWave();
+                am.switchbgm(am.bossbgm);
+            }
+
+        }
+    }
+    public void HandleBossDead()
+    {
+        if (currState != State.Playing) return;
+
+        RefreshUI();
+
+        // have we won the game?
+        if(enemyManager.numEnemies <= 0 && bm.numBosses<=0)
+        {
             // set the state of the game
             currState = State.WonGame;
 
-            am.switchbgm(am.winbgm);
+            if(SceneManager.GetActiveScene().buildIndex==3){
+                am.switchbgm(am.victorybgm);
+            }
+            else{
+                am.switchbgm(am.winbgm);
+            }
 
             // show text on the graffiti
             RefreshUI();
 
             // remove all enemies
             enemyManager.KillAll();
+            bm.KillAll();
+
         }
     }
 }

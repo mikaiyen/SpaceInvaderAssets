@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class AudioManager : MonoBehaviour
 {
@@ -13,12 +15,19 @@ public class AudioManager : MonoBehaviour
     public AudioClip gun2shoot;
     public AudioClip mainbgm;
     public AudioClip fightbgm;
+    public AudioClip bossbgm;
     public AudioClip winbgm;
     public AudioClip losebgm;
     public AudioClip enemydeath;
+    public AudioClip victorybgm;
 
     private void Start(){
-        bgm.clip=mainbgm;
+        if (SceneManager.GetActiveScene().buildIndex==0){
+            bgm.clip=losebgm;
+        }
+        else{
+            bgm.clip=mainbgm;
+        }
         bgm.Play();
     }
 

@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
     public float rangeV = 1;
    
     // speed
-    public float speed = 2;
+    public float speed = 3;
 
     // direction
     int direction = 1;
