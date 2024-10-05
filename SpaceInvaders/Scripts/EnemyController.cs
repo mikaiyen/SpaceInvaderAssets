@@ -30,6 +30,8 @@ public class EnemyController : MonoBehaviour
     // Enemy Manager
     EnemyManager em;
 
+    AudioManager am;
+
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,8 @@ public class EnemyController : MonoBehaviour
         {
             Debug.LogError("there needs to be an EnemyManager in the scene");
         }
+
+        am = GameObject.FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -119,6 +123,7 @@ public class EnemyController : MonoBehaviour
 
         //[implement your own effect here]
         gameObject.GetComponentInChildren<Renderer>().sharedMaterial = deadmaterial;
+        am.playSFX(am.enemydeath);
 
         //[Example]
         Invoke("enemyfade", 0.2f);

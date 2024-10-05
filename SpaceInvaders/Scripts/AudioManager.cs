@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip fightbgm;
     public AudioClip winbgm;
     public AudioClip losebgm;
+    public AudioClip enemydeath;
 
     private void Start(){
         bgm.clip=mainbgm;
