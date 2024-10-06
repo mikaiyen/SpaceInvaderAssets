@@ -64,7 +64,7 @@ public class BulletController : MonoBehaviour
             }
             Destroy(gameObject,0.2f);
         }
-        // check if we hit an enemy
+        // check if we hit Boss
         else if(other.CompareTag("Boss"))
         {
             other.gameObject.GetComponent<BossController>().losehealth();
