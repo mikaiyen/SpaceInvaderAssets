@@ -10,6 +10,7 @@ public class swingarm : MonoBehaviour
     public GameObject RightHand;
     public GameObject CenterEyeCamera;
     public GameObject ForwardDirection;
+    public GameObject windEffect;
 
     // Vector3 position
     private Vector3 LeftHand_PreviousFramePosition;
@@ -55,7 +56,14 @@ public class swingarm : MonoBehaviour
         handspeed = ((leftHandDistanceMoved-playerDistancedMoved)+(rightHandDistanceMoved-playerDistancedMoved));
 
         if(Time.timeSinceLevelLoad>1f){
-            transform.position+=ForwardDirection.transform.forward*handspeed*speed*Time.deltaTime;
+            if(handspeed>=0.005){
+                transform.position+=ForwardDirection.transform.forward*handspeed*speed*Time.deltaTime;
+                windEffect.SetActive(true);
+            }
+            else{
+                windEffect.SetActive(false);
+            }
+            
         }
 
         // set previous position

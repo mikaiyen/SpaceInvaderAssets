@@ -1857,12 +1857,14 @@ MonoBehaviour:
   sfx: {fileID: 91422423}
   gun1shoot: {fileID: 8300000, guid: 209667eee5d1ce640999f35c1ecbc4c2, type: 3}
   gun2shoot: {fileID: 8300000, guid: f7f86a53d7d2c1b4da868918b60efe60, type: 3}
+  enemydeath: {fileID: 8300000, guid: c914b31ff0b85c44db0141d1f1633c52, type: 3}
+  arrowShoot: {fileID: 0}
+  teleportSound: {fileID: 0}
   mainbgm: {fileID: 8300000, guid: b37e3625f0066064ebf5f4a5cad4a4ff, type: 3}
   fightbgm: {fileID: 8300000, guid: b3d51d51a99e7a14a8e9da271516f16d, type: 3}
   bossbgm: {fileID: 0}
   winbgm: {fileID: 8300000, guid: 32c84446a43131f41b52616c06d56dff, type: 3}
   losebgm: {fileID: 8300000, guid: 4b787f4cd8cb89548962c13d2578bc29, type: 3}
-  enemydeath: {fileID: 8300000, guid: c914b31ff0b85c44db0141d1f1633c52, type: 3}
   victorybgm: {fileID: 8300000, guid: 753193bdd7f0f85439b111cca277170d, type: 3}
 --- !u!4 &1585557149
 Transform:
@@ -2103,7 +2105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 238424321818482630, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 260708382738452514, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_Layer
