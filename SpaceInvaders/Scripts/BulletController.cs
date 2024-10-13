@@ -16,12 +16,13 @@ public class BulletController : MonoBehaviour
     // Reference to the AudioSource component
     public AudioManager am;
 
-
+    private Rigidbody m_Rigidbody = null;
     Vector3 initPos;
     // Start is called before the first frame update
     void Start()
     {
         initPos = transform.position;
+        m_Rigidbody = GetComponent<Rigidbody>();
         am = GameObject.FindObjectOfType<AudioManager>();
     }
 
@@ -62,6 +63,7 @@ public class BulletController : MonoBehaviour
                 // 在 0.5 秒後停止震動
                 Invoke("StopVibration", 0.2f);
             }
+            m_Rigidbody.isKinematic=true;
             Destroy(gameObject,0.2f);
         }
         // check if we hit Boss
