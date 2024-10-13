@@ -98,12 +98,13 @@ public class BulletController : MonoBehaviour
             else if(gm.nowstate=="WonGame"){
                 Destroy(gameObject);
                 //load next level
+                if(SceneManager.GetActiveScene().buildIndex<2)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
             }
             else if(gm.nowstate=="GameOver"){
                 Destroy(gameObject);
                 //load next level
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(0);
             }
             
             

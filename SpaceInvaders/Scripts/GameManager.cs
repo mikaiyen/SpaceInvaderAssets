@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 
-        if (SceneManager.GetActiveScene().buildIndex==0){
+        if (SceneManager.GetActiveScene().name=="Prison"){
             currState = State.GameOver;
         }
         else{
@@ -85,17 +85,17 @@ public class GameManager : MonoBehaviour
                 break;
 
             case State.GameOver:
-                acc=Math.Round((decimal)(enemyManager.totalenemiescount-enemyManager.numEnemies)/ pc.numBullets,2)*100;
-                accOutput=Decimal.ToInt32(acc);
+                //acc=Math.Round((decimal)(enemyManager.totalenemiescount-enemyManager.numEnemies)/ pc.numBullets,2)*100;
+                //accOutput=Decimal.ToInt32(acc);
                 uiText.text = "Game Over! Shoot here";
-                bulletcount.text = "Your accuracy is: "+ accOutput +"%";
+                //bulletcount.text = "Your accuracy is: "+ accOutput +"%";
                 nowstate="GameOver";
                 break;
 
             case State.WonGame:
                 acc=Math.Round((decimal)(enemyManager.totalenemiescount-enemyManager.numEnemies)/ pc.numBullets,2)*100;
                 accOutput=Decimal.ToInt32(acc);
-                if(SceneManager.GetActiveScene().buildIndex==3){
+                if(SceneManager.GetActiveScene().name=="FinalLevel"){
                     uiText.text = "YOU Complete the game!";
                 }
                 else{
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         enemyManager.KillAll();
 
         //load to prison
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Prison");
     }
 
     // checks whether we've won, and if we did win, refresh UI
@@ -158,11 +158,11 @@ public class GameManager : MonoBehaviour
         // have we won the game?
         if(enemyManager.numEnemies <= 0)
         {
-            if(SceneManager.GetActiveScene().buildIndex!=3){
+            if(SceneManager.GetActiveScene().name!="FinalLevel"){
                 // set the state of the game
                 currState = State.WonGame;
 
-                if(SceneManager.GetActiveScene().buildIndex==3){
+                if(SceneManager.GetActiveScene().name=="FinalLevel"){
                     am.switchbgm(am.victorybgm);
                 }
                 else{
@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
                 // remove all enemies
                 enemyManager.KillAll();
             }
-            else if(SceneManager.GetActiveScene().buildIndex==3){
+            else if(SceneManager.GetActiveScene().name=="FinalLevel"){
                 //create boss
                 bm.CreateBossWave();
                 am.switchbgm(am.bossbgm);
@@ -195,7 +195,7 @@ public class GameManager : MonoBehaviour
             // set the state of the game
             currState = State.WonGame;
 
-            if(SceneManager.GetActiveScene().buildIndex==3){
+            if(SceneManager.GetActiveScene().name=="FinalLevel"){
                 am.switchbgm(am.victorybgm);
             }
             else{

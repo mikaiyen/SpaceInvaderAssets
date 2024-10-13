@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip victorybgm;
 
     private void Start(){
-        if (SceneManager.GetActiveScene().buildIndex==0){
+        if (SceneManager.GetActiveScene().name=="Prison"){
             bgm.clip=losebgm;
         }
         else{
