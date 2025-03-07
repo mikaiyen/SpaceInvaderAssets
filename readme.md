@@ -1,6 +1,7 @@
 # Unity VR Space Invader
 
-這是一個以 Unity 製作的 VR 遊戲作業專案，整合多種移動模式與武器互動方式，並包含多關卡設計、角色系統、音效管理與特效等功能。
+這是交大2024 Interaction design and virtual reality 第一次課程作業 
+
 
 ## 目錄
 - [專案簡介](#專案簡介)
@@ -21,13 +22,27 @@
 
 ---
 
-## 專案背景
-
-這是交大2024 Interaction design and virtual reality 課程作業 
-
 ## 專案簡介
 
-本專案主要展示如何在 Unity VR 環境中整合多種移動模式與互動方式，包括使用手勢、弓箭、搖桿等進行操作。遊戲中包含多個關卡（Level 1~3 及一個監獄場景），並有敵人、Boss、HP 系統以及音效與視覺特效等。此專案也實作了角色（Avatar）與鏡子反射等功能，提供 VR 中較完整且有趣的體驗。
+主要展示如何在 Unity VR 環境中整合多種移動模式與互動方式，包括使用手勢、弓箭、搖桿等進行操作。遊戲中包含多個關卡（Level 1~3 及一個監獄場景），並有敵人、Boss、HP 系統以及音效與視覺特效等。也實作了角色（Avatar）與鏡子反射等功能，提供 VR 中較完整且有趣的體驗。
+
+---
+
+## 執行方式
+
+1. **專案下載 / Clone：**  
+   ```bash
+   git clone https://github.com/mikaiyen/SpaceInvaderAssets.git
+   ```
+2. **開啟 Unity：**  
+   - 使用Unity 2022.3.44f1 新增專案。 
+   - 將本專案全部內容複製貼上到Assets資料夾
+3. **相依套件：**  
+   - 使用了 Oculus Integration、Meta Avatar SDK 等，請確認已安裝相對應套件。  
+4. **Build & Run：**  
+   - 進行 VR 裝置（如 Oculus Quest 系列）的連線與設定，Build 到對應平台（PC 或直接 Build 為 Android APK 安裝至 Quest）。  
+5. **手勢追蹤（若需要）：**  
+   - 確認在 Meta Quest 開發者模式下啟用手勢追蹤功能，才可於裝置上測試 Hand Gestures。
 
 ---
 
@@ -142,24 +157,6 @@
    - 若玩家戰鬥失敗，角色會被送往監獄場景。此處可透過操作 UI 重新返回第一關。  
 4. **切換關卡：**  
    - 在 Unity 中設定好 Build Index，過關射擊 UI 時 Index +1；失敗則跳回監獄 (Index=0)。
-
----
-
-## 執行方式
-
-1. **專案下載 / Clone：**  
-   ```bash
-   git clone https://github.com/mikaiyen/SpaceInvaderAssets.git
-   ```
-2. **開啟 Unity：**  
-   - 使用Unity 2022.3.44f1 新增專案。 
-   - 將本專案全部內容複製貼上到Assets資料夾
-3. **相依套件：**  
-   - 若使用了 Oculus Integration、Meta Avatar SDK 等，請確認已安裝相對應套件。  
-4. **Build & Run：**  
-   - 進行 VR 裝置（如 Oculus Quest 系列）的連線與設定，Build 到對應平台（PC 或直接 Build 為 Android APK 安裝至 Quest）。  
-5. **手勢追蹤（若需要）：**  
-   - 確認在 Meta Quest 開發者模式下啟用手勢追蹤功能，才可於裝置上測試 Hand Gestures。
 
 ---
 
